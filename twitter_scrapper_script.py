@@ -127,3 +127,7 @@ if __name__ == "__main__":
         print("Scraping {} date ranges:".format(len(ranges)))
         for i, r in enumerate(ranges):
             print("{}: start date (inclusive): {}, end date (exclusive): {}".format(i + 1, r[0], r[-1]))
+
+        for i, r in enumerate(ranges):
+            print("Scraping start date (inclusive): {}, end date (exclusive): {}".format(r[0], r[-1]))
+            create_tweets_plk(start_date, end_date)
