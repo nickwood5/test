@@ -63,6 +63,7 @@ def get_tweets(query, max_num_tweets):
 
 def create_tweets_plk(start_date, end_date, max_tweets_per_coin_per_hour = 100):
     daterange = pd.date_range(start_date, end_date, freq="1H").map(pd.Timestamp.timestamp).map(int)
+    print(daterange)
 
     rows = []
 
@@ -107,5 +108,22 @@ if __name__ == "__main__":
         
     start_date, end_date = sys.argv[1], sys.argv[2]
     print(f"start date (inclusive): {start_date}, end date (exclusive): {end_date}")
-    
-    create_tweets_plk(start_date, end_date)
+    ts_index = pd.date_range(start=start_date, end=end_date, freq='D')
+
+    if len(ts_index) < 10:
+        print("Scraping 1 date range")
+        create_tweets_plk(start_date, end_date)
+    else:
+        print("Breaking date range into segments of size 10")
+        num_intervals = len(ts_index) // 10
+
+        ranges = []
+        for i in range (num_intervals):
+            ranges.append(ts_index[i*10:i*10 + 11])
+
+        if (len(ts_index)-1) % 10 != 0:
+            ranges.append(ts_index[(len(ts_index) // 10)*10:len(ts_index)])
+
+        print("Scraping {} date ranges:".format(len(ranges)))
+        for i, r in enumerate(ranges):
+            print("{}: start date (inclusive): {}, end date (exclusive): {}".format(i + 1, r[0], r[-1]))
