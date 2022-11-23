@@ -120,10 +120,11 @@ if __name__ == "__main__":
         for i in range (num_intervals):
             ranges.append(ts_index[i*10:i*10 + 11])
 
-        if (len(ts_index)-1) % 10 != 0:
+        if (len(ts_index)) % 10 != 0:
             ranges.append(ts_index[(len(ts_index) // 10)*10:len(ts_index)])
 
         print("Scraping {} date ranges:".format(len(ranges)))
+        print(ranges)
         for i, r in enumerate(ranges):
             print("{}: start date (inclusive): {}, end date (exclusive): {}".format(i + 1, r[0], r[-1]))
 
